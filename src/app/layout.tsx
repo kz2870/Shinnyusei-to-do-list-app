@@ -10,7 +10,7 @@ export default function RootLayout({
       <html lang="en">
         <body>
           <div className="grid place-content-center h-screen">
-            <div className="flex max-w-lg">
+            <div className="flex gap-4 h-[80lvh]">
               <TodoList />
               {children}
             </div>

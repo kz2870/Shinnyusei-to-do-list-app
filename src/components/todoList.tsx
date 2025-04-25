@@ -25,14 +25,16 @@ const TodoList = React.memo(function TodoList() {
     }, []);
 
     return (
-        <div>
-            <p>ALL YOUR TODO: </p>
+        <div className="flex-1 shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
+            <h2 className="text-xl font-bold mb-4">ALL YOUR TODO:</h2>
             {isLoading ? (
-                <p>Loading...</p>
+                <p className="text-gray-500">Loading...</p>
             ) : (
-                allTasks.map((task) => (
-                    <TodoListItem key={task.taskid} {...task} />
-                ))
+                <ul className="space-y-2">
+                    {allTasks.map((task) => (
+                        <TodoListItem key={task.taskid} {...task} />
+                    ))}
+                </ul>
             )}
         </div>
     );
