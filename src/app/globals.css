@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@egoist/tailwindcss-icons";
 
 :root {
   --background: #ffffff;
