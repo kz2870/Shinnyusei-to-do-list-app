@@ -16,15 +16,13 @@ const TodoDetail: React.FC<Task> = (task) => {
           }`} />{task.title}
         </h2>
         <p className="mb-2"><strong>期限:</strong> {task.due_date ? task.due_date.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }) : "なし"}</p>
-        <p className="mb-2"><strong>説明:</strong> {task.description}</p>
-        <div className="mt-4">
-            <strong>ラベル:</strong>
-            <ul className="list-disc list-inside">
-                {task.labels.map((label, index) => (
-                    <li key={index}>{label}</li>
-                ))}
-            </ul>
+        <div className="mb-2">
+          <p>
+            <strong>ラベル: </strong>
+            {task.labels.map((label, index) => label + ", ")}
+          </p>
         </div>
+        <p className="mb-2"><strong>説明:</strong> {task.description}</p>
         <p className="mb-2"><strong>優先度:</strong> {task.priority}</p>
         <p className="mb-2"><strong>作成日:</strong> {task.created_at.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" })}</p>
         <p className="mb-2"><strong>更新日:</strong> {task.updated_at.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" })}</p>
