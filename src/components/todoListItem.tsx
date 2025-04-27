@@ -2,7 +2,25 @@ import React from 'react';
 import Link from 'next/link';
 import { Task } from '../types/task';
 
+import APIManager from '../utils/APIManager';
+
 const TodoListItem: React.FC<Task> = (task) => {
+  const [labelNames, setLabelNames] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    const fetchLabels = async () => {
+      const apiManager = APIManager.getInstance();
+      const labels = await Promise.all(
+        task.labels.map(async (labelId) => {
+          const label = await apiManager.getLabelById(labelId);
+          return label ? label.label_name : 'Unknown';
+        })
+      );
+      setLabelNames(labels);
+    };
+
+    fetchLabels();
+  }, [task.labels]);
   return (
     <Link href={`/${task.taskid}`}>
       <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px 0', cursor: 'pointer' }}>
@@ -13,6 +31,9 @@ const TodoListItem: React.FC<Task> = (task) => {
         <p>{task.description}</p>
         <p>Priority: {task.priority}</p>
         <p>Status: {task.is_complete ? 'Completed' : 'Pending'}</p>
+        <div>
+          <strong>Labels:</strong> {labelNames.join(', ')}
+        </div>
       </div>
     </Link>
   );

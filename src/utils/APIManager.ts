@@ -4,12 +4,38 @@ import { Task } from '@/types/Task';
 
 export default class APIManager {
   private static instance: APIManager;
-  private labels: Label[] = [];
+  private labels: Label[] = [
+      {
+          label_id: '1',
+          label_name: 'label1',
+          color_code: '#FF0000',
+      },
+      {
+          label_id: '2',
+          label_name: 'label2',
+          color_code: '#00FF00',
+      },
+      {
+          label_id: '3',
+          label_name: 'label3',
+          color_code: '#0000FF',
+      },
+      {
+          label_id: '4',
+          label_name: 'label4',
+          color_code: '#808080',
+      },
+      {
+          label_id: '5',
+          label_name: 'label5',
+          color_code: '#FFFF00',
+      },
+  ];
   private tasks: Task[] = [
       {
           taskid: '1',
           title: 'Sample Task 1',
-          labels: ['label1', 'label2'],
+          labels: ['1', '2'],
           description: 'This is a sample task description.',
           due_date: new Date('2023-10-01'),
           priority: 1,
@@ -21,7 +47,7 @@ export default class APIManager {
       {
           taskid: '2',
           title: 'Sample Task 2',
-          labels: ['label3'],
+          labels: ['3'],
           description: 'This is another sample task description.',
           due_date: null,
           priority: 2,
@@ -33,7 +59,7 @@ export default class APIManager {
       {
           taskid: '3',
           title: 'Deleted Task 1',
-          labels: ['label4'],
+          labels: ['4'],
           description: 'This task is marked as deleted.',
           due_date: new Date('2023-11-01'),
           priority: 3,
@@ -45,7 +71,7 @@ export default class APIManager {
       {
           taskid: '4',
           title: 'Deleted Task 2',
-          labels: ['label5', 'label6'],
+          labels: ['5', '3'],
           description: 'Another deleted task example.',
           due_date: null,
           priority: 4,
