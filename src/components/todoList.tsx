@@ -43,14 +43,22 @@ const TodoList = React.memo(function TodoList() {
     };
 
     return (
-        <div className="flex-1 shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
-            <h2 className="text-xl font-bold mb-4">ALL YOUR TODO:</h2>
-            <button
-                className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                onClick={() => setIsFilterSortOpen(!isFilterSortOpen)}
-            >
-                絞り込み・並び替え
-            </button>
+        <div className="flex-1 shrink-0 flex flex-col w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold grow">ALL YOUR TODO:</h2>
+                <button
+                    className="px-4 py-2 cursor-pointer"
+                    onClick={() => fetchTasks()}
+                >
+                    <i className="align-text-top w-[1.5rem] h-[1.5rem] i-mdi-refresh"></i>
+                </button>
+                <button
+                    className="px-4 py-2 cursor-pointer"
+                    onClick={() => setIsFilterSortOpen(!isFilterSortOpen)}
+                >
+                    <i className="align-text-top w-[1.5rem] h-[1.5rem] i-mdi-sort-variant"></i>
+                </button>
+            </div>
             {isFilterSortOpen ? (
                 <FilterSortPanel 
                     onApply={handleApplyFiltersSort} 
