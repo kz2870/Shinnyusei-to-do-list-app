@@ -1,6 +1,7 @@
 "use client"
 import { Label } from '@/types/Label';
 import { Task } from '@/types/Task';
+import { FilterOptions , SortOptions } from '@/types/filterSortOptions';
 
 export default class APIManager {
   private static instance: APIManager;
@@ -110,8 +111,42 @@ export default class APIManager {
   }
 
   // Task関連メソッド
-  public async getTasks(): Promise<Task[]> {
-    return Promise.resolve(this.tasks);
+  public async getTasks(filters?: FilterOptions, sort?: SortOptions): Promise<Task[]> {
+    let filteredTasks = this.tasks;
+
+    // 絞り込み処理
+    if (filters) {
+      if (filters.is_complete !== "any") {
+          filteredTasks = filteredTasks.filter(task => task.is_complete === (filters.is_complete === "true"));
+      }
+      if (filters.is_deleted !== "any") {
+          filteredTasks = filteredTasks.filter(task => task.is_deleted === (filters.is_deleted === "true"));
+      }
+      if (filters.labels.length > 0) {
+          filteredTasks = filteredTasks.filter(task => filters.labels.every(label => task.labels.includes(label)));
+      }
+    }
+
+    // 並び替え処理
+    if (sort) {
+      filteredTasks.sort((a, b) => {
+          if (sort.orderBy === "due_date") {
+              return new Date(a.due_date || 0).getTime() - new Date(b.due_date || 0).getTime();
+          }
+          if (sort.orderBy === "priority") {
+              return (a.priority || 0) - (b.priority || 0);
+          }
+          if (sort.orderBy === "created_at") {
+              return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime();
+          }
+          if (sort.orderBy === "title") {
+              return a.title.localeCompare(b.title);
+          }
+          return 0;
+      });
+    }
+
+    return Promise.resolve(filteredTasks);
   }
 
   public async addTask(task: Task): Promise<void> {
