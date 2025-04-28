@@ -4,7 +4,12 @@ import React from "react";
 import { Task } from "../types/task";
 import APIManager from "../utils/APIManager";
 
-const TodoDetail: React.FC<Task> = (task) => {
+interface TodoDetailProps {
+  task: Task;
+  onReload: () => void;
+}
+
+const TodoDetail: React.FC<TodoDetailProps> = ({ task, onReload }) => {
   if (!task) {
     return <div>タスクが選択されていません。</div>;
   }
@@ -28,10 +33,23 @@ const TodoDetail: React.FC<Task> = (task) => {
 
   return (
     <div className="flex-1 shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-2xl font-bold mb-4">
-        <i className={`w-[1.5rem] align-text-top ${task.is_deleted ? "i-mdi-delete-outline" : (task.is_complete ? "i-mdi-check-circle-outline" : "i-mdi-checkbox-blank-circle-outline")
-          }`} />{task.title}
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        
+      <button
+            className="px-2 cursor-pointer"
+            onClick={() => {}}
+        >
+          <i className={`w-[1.5rem] h-[1.5rem] align-text-top ${task.is_deleted ? "i-mdi-delete-outline" : (task.is_complete ? "i-mdi-check-circle-outline" : "i-mdi-checkbox-blank-circle-outline")}`} />
+        </button>
+        <h2 className="grow text-2xl font-bold">{task.title}
+        </h2>
+        <button
+            className="px-4 py-2 cursor-pointer"
+            onClick={() => onReload()}
+        >
+            <i className="align-text-top w-[1.5rem] h-[1.5rem] i-mdi-refresh"></i>
+        </button>
+      </div>
       <p className="mb-2"><strong>期限:</strong> {task.due_date ? task.due_date.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }) : "なし"}</p>
       <div className="mb-2">
         <p>
