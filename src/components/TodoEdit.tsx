@@ -11,6 +11,7 @@ interface TodoEditProps {
 export default function TodoEdit({ task, switchEdit }: TodoEditProps) {
     const [editedTask, setEditedTask] = useState(task);
     const [labels, setLabels] = useState<Label[]>([]);
+    const [labelsSearchQuery, setLabelsSearchQuery] = useState("");
 
     useEffect(() => {
         const fetchLabels = async () => {
@@ -67,8 +68,19 @@ export default function TodoEdit({ task, switchEdit }: TodoEditProps) {
             </div>
             <div className="mb-4">
                 <label className="block mb-2 font-bold">ラベル:</label>
+                <input
+                    type="text"
+                    className="w-full p-2 mb-2 border rounded"
+                    placeholder="ラベルを検索..."
+                    value={labelsSearchQuery}
+                    onChange={(e) => setLabelsSearchQuery(e.target.value)}
+                />
                 <div className="w-full p-2 border rounded">
-                    {labels.map((label) => (
+                    {labels
+                        .filter((label) =>
+                            label.label_name.toLowerCase().includes(labelsSearchQuery.toLowerCase())
+                        )
+                        .map((label) => (
                         <div key={label.label_id} className="flex items-center mb-2">
                             <input
                                 type="checkbox"
