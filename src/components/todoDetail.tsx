@@ -6,10 +6,10 @@ import APIManager from "../utils/APIManager";
 
 interface TodoDetailProps {
   task: Task;
-  onReload: () => void;
+  switchEdit: () => void;
 }
 
-const TodoDetail: React.FC<TodoDetailProps> = ({ task, onReload }) => {
+const TodoDetail: React.FC<TodoDetailProps> = ({ task, switchEdit }) => {
   if (!task) {
     return <div>タスクが選択されていません。</div>;
   }
@@ -32,23 +32,17 @@ const TodoDetail: React.FC<TodoDetailProps> = ({ task, onReload }) => {
   }, [task.labels]);
 
   return (
-    <div className="flex-1 shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
+    <div className="flex-1 relative shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
       <div className="flex justify-between items-center mb-4">
-        
-      <button
-            className="px-2 cursor-pointer"
-            onClick={() => {}}
+
+        <button
+          className="px-2 cursor-pointer"
+          onClick={() => { }}
         >
           <i className={`w-[1.5rem] h-[1.5rem] align-text-top ${task.is_deleted ? "i-mdi-delete-outline" : (task.is_complete ? "i-mdi-check-circle-outline" : "i-mdi-checkbox-blank-circle-outline")}`} />
         </button>
         <h2 className="grow text-2xl font-bold">{task.title}
         </h2>
-        <button
-            className="px-4 py-2 cursor-pointer"
-            onClick={() => onReload()}
-        >
-            <i className="align-text-top w-[1.5rem] h-[1.5rem] i-mdi-refresh"></i>
-        </button>
       </div>
       <p className="mb-2"><strong>期限:</strong> {task.due_date ? task.due_date.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }) : "なし"}</p>
       <div className="mb-2">
@@ -63,6 +57,12 @@ const TodoDetail: React.FC<TodoDetailProps> = ({ task, onReload }) => {
       <p className="mb-2"><strong>更新日:</strong> {task.updated_at.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" })}</p>
       <p className="mb-2"><strong>完了:</strong> {task.is_complete ? "はい" : "いいえ"}</p>
       <p className="mb-2"><strong>削除済み:</strong> {task.is_deleted ? "はい" : "いいえ"}</p>
+      <button
+        className="flex items-center justify-center absolute bottom-4 right-4 bg-blue-500 text-white p-2 w-12 h-12 rounded-full shadow-md hover:bg-blue-600"
+        onClick={() => switchEdit()}
+      >
+        <i className="i-mdi-pencil w-[1.5rem] h-[1.5rem]"></i>
+      </button>
     </div>
   );
 };
