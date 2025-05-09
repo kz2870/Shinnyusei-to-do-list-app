@@ -34,7 +34,7 @@ export default function TodoEdit({ task, switchEdit }: TodoEditProps) {
     };
 
     return (
-        <div className="flex-1 relative shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
+        <div className="flex-1 relative shrink-0 w-[26rem] h-full bg-white shadow-md rounded-lg p-4 overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
                 <div className="px-2">
                     <i className="w-[1.5rem] h-[1.5rem] align-text-top i-mdi-pencil" />
@@ -75,7 +75,7 @@ export default function TodoEdit({ task, switchEdit }: TodoEditProps) {
                     value={labelsSearchQuery}
                     onChange={(e) => setLabelsSearchQuery(e.target.value)}
                 />
-                <div className="w-full p-2 border rounded">
+                <div className="w-full p-2 border rounded h-40 overflow-y-auto">
                     {labels
                         .filter((label) =>
                             label.label_name.toLowerCase().includes(labelsSearchQuery.toLowerCase())
