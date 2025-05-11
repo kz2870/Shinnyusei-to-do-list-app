@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { FilterOptions, SortOptions } from '@/types/filterSortOptions';
 import FilterSortPanel from './FilterSortPanel';
 import APIManager from '@/utils/APIManager';
@@ -7,6 +8,8 @@ import { Task } from '@/types/task';
 import TodoListItem from './todoListItem';
 
 const TodoList = React.memo(function TodoList() {
+    const router = useRouter();
+    
     const [allTasks, setAllTasks] = useState<Task[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -46,6 +49,14 @@ const TodoList = React.memo(function TodoList() {
         <div className="flex-1 shrink-0 flex flex-col w-[26rem] h-full bg-white shadow-md rounded-lg p-4">
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold grow">ALL YOUR TODO:</h2>
+                <button
+                    className="px-4 py-2 cursor-pointer"
+                    onClick={() => {
+                        router.push("/new");
+                    }}
+                >
+                    <i className="align-text-top  w-[1.5rem] h-[1.5rem] i-mdi-plus"></i>
+                </button>
                 <button
                     className="px-4 py-2 cursor-pointer"
                     onClick={() => fetchTasks()}
