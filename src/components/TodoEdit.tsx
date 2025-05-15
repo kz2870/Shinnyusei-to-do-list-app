@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TodoEditor from "./TodoEditor";
-import { Task } from "@/types/task";
+import { Task, validateTask } from "@/types/task";
 import APIManager from "@/utils/APIManager";
 
 interface TodoEditProps {
@@ -9,8 +9,14 @@ interface TodoEditProps {
 }
 
 export default function TodoUpdate({ task, switchEdit }: TodoEditProps) {
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const handleSave = async () => {
+    const handleSave = async (task: Partial<Task>) => {
+        if (!validateTask(task)) {
+            setErrorMessage("Validation failed: Please check the task details.");
+            return;
+        }
+        setErrorMessage(null);
         const apiManager = APIManager.getInstance();
         try {
             await apiManager.updateTask(task.taskid!, task);
@@ -23,6 +29,9 @@ export default function TodoUpdate({ task, switchEdit }: TodoEditProps) {
     };
 
     return (
-        <TodoEditor task={task} onSave={handleSave} />
+        <>
+            <TodoEditor task={task} onSave={handleSave} />
+            {errorMessage && <div className="text-red-500 mb-2">{errorMessage}</div>}
+        </>
     );
 }
