@@ -36,7 +36,7 @@ export default function TodoCreate() {
         try {
             await apiManager.addTask(modifiedTask);
             console.log("Task created successfully:" + JSON.stringify(modifiedTask));
-            router.push(`/task/${modifiedTask.taskid}`)
+            router.push(`/${modifiedTask.taskid}`)
         } catch (error) {
             console.error("Error creating task:", error);
         } 
