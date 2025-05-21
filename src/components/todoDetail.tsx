@@ -51,6 +51,21 @@ const TodoDetail: React.FC<TodoDetailProps> = ({ task: initialTask, switchEdit }
         </button>
         <h2 className="grow text-2xl font-bold">{task.title}
         </h2>
+        <button
+          className="ml-2 px-2 py-1 text-white rounded"
+          onClick={async () => {
+            const apiManager = APIManager.getInstance();
+            const updatedTask = { ...task, is_deleted: !task.is_deleted };
+            await apiManager.updateTask(task.taskid, { is_deleted: updatedTask.is_deleted });
+            setTask(updatedTask);
+          }}
+        >
+          <i
+            className={`w-[1.5rem] h-[1.5rem] cursor-pointer text-red-500 ${
+              task.is_deleted ? "i-mdi-delete-clock-outline" : "i-mdi-delete-outline"
+            }`}
+          />
+        </button>
       </div>
       <p className="mb-2"><strong>期限:</strong> {task.due_date ? task.due_date.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }) : "なし"}</p>
       <div className="mb-2">
