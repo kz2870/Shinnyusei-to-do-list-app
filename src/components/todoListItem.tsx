@@ -41,10 +41,22 @@ const TodoListItem: React.FC<Task> = (initialTask) => {
             }}
           /> {task.title}</h3>
         <p>{task.description}</p>
-        <p>Priority: {task.priority}</p>
-        <p>Status: {task.is_complete ? 'Completed' : 'Pending'}</p>
         <div>
-          <strong>Labels:</strong> {labelNames.join(', ')}
+          <div className="flex items-center gap-2 mt-2">
+            <strong>Priority: {task.priority}</strong>
+          </div>
+        </div>
+        <div>
+          <div className="flex gap-2">
+            {labelNames.map((label, index) => (
+              <span
+                key={index}
+                className="bg-gray-200 text-gray-800 rounded-full px-2 py-1 text-xs font-bold"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </Link>
