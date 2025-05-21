@@ -9,7 +9,8 @@ interface TodoDetailProps {
   switchEdit: () => void;
 }
 
-const TodoDetail: React.FC<TodoDetailProps> = ({ task, switchEdit }) => {
+const TodoDetail: React.FC<TodoDetailProps> = ({ task: initialTask, switchEdit }) => {
+  const [task, setTask] = React.useState(initialTask);
   if (!task) {
     return <div>タスクが選択されていません。</div>;
   }
@@ -37,7 +38,14 @@ const TodoDetail: React.FC<TodoDetailProps> = ({ task, switchEdit }) => {
 
         <button
           className="px-2 cursor-pointer"
-          onClick={() => { }}
+          onClick={async () => {
+            if (!task.is_deleted) {
+              const apiManager = APIManager.getInstance();
+              const updatedTask = { ...task, is_complete: !task.is_complete };
+              await apiManager.updateTask(task.taskid, { is_complete: updatedTask.is_complete });
+              setTask(updatedTask);
+            }
+          }}
         >
           <i className={`w-[1.5rem] h-[1.5rem] align-text-top ${task.is_deleted ? "i-mdi-delete-outline" : (task.is_complete ? "i-mdi-check-circle-outline" : "i-mdi-checkbox-blank-circle-outline")}`} />
         </button>
